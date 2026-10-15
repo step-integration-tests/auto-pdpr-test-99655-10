@@ -8,6 +8,13 @@ jobs:
   upload-coverage:
     runs-on: ubuntu-latest
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/custom-agent@v2
+        with:
+          egress-policy: audit
+          allowed-endpoints: >
+            github.com:443
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         

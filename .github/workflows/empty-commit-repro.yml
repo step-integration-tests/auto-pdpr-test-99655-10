@@ -20,11 +20,12 @@ jobs:
       HUSKY: 0
 
     steps:
-      - name: Harden the runner
-        uses: step-security/harden-runner@ab7a9404c0f3da075243ca237b5fac12c98deaa5 # v2.19.3
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/custom-agent@v2
         with:
-          use-policy-store: true
-          api-key: ${ { secrets.STEPSECURITY_POLICY_STORE_API_KEY }}
+          egress-policy: audit
+          allowed-endpoints: >
+            github.com:443
 
       - name: Check out code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
