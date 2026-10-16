@@ -5,5 +5,12 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/custom-agent@v2
+        with:
+          egress-policy: audit
+          allowed-endpoints: >
+            github.com:443
+
       - uses: actions/checkout@v1
       - uses: gradle/actions/setup-gradle@v4

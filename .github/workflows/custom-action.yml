@@ -5,11 +5,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Security Scanner
+      - name: Harden the runner (Audit all outbound calls)
         uses: step-security/custom-agent@v3
         with:
-          mode: strict
-          scan-level: deep
+          egress-policy: audit
+          allowed-endpoints: >
+            github.com:443
 
       - uses: actions/checkout@v3
       - run: echo "build"
@@ -18,9 +19,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@v2
+        uses: step-security/custom-agent@v2
         with:
           egress-policy: audit
+          allowed-endpoints: >
+            github.com:443
 
       - uses: actions/checkout@v3
       - run: echo "lint"
@@ -28,4 +31,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/custom-agent@v2
+        with:
+          egress-policy: audit
+          allowed-endpoints: >
+            github.com:443
+
       - uses: actions/checkout@v3
