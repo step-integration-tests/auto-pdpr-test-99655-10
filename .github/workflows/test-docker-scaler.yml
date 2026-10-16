@@ -9,6 +9,13 @@ jobs:
     container: node:18
 
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/custom-agent@v2
+        with:
+          egress-policy: audit
+          allowed-endpoints: >
+            github.com:443
+
       - name: Hello
         shell: bash
         run: echo "HI"

@@ -5,11 +5,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@v2
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/custom-agent@v2
         with:
-          use-policy-store: true
-          api-key: ${{ secrets.STEP_SECURITY_API_KEY }}
+          egress-policy: audit
+          allowed-endpoints: >
+            github.com:443
 
       # changed-files works checkout-less only on pull_request (GitHub API mode).
       # On push it diffs before..after in the local repo and errors without a
